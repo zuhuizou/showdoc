@@ -28,36 +28,45 @@ if(!new_is_writeable("../Public/Uploads")){
   echo L("not_writable_upload").'<br>';
   $go = 0;
 }
-if(!new_is_writeable("../Application/Runtime")){
-  echo L("not_writable_runtime").'<br>';
-  $go = 0;
-}
 
 if(!new_is_writeable("../server/Application/Runtime")){
   echo L("not_writable_server_runtime").'<br>';
   $go = 0;
 }
 
-if(!new_is_writeable("../Application/Common/Conf/config.php")){
+if(!new_is_writeable("../server/Application/Common/Conf/config.php")){
   echo L("not_writable_config").'<br>';
   $go = 0;
 }
-if(!new_is_writeable("../Application/Home/Conf/config.php")){
+if(!new_is_writeable("../server/Application/Home/Conf/config.php")){
   echo L("not_writable_home_config").'<br>';
   $go = 0;
 }
+
+if ($cur_lang == 'en') {
+  if(!new_is_writeable("../web/index.html")){
+    echo L("not_writable_web_docconfig").'<br>';
+    $go = 0;
+  }
+
+  if(!new_is_writeable("../web_src/index.html")){
+    echo L("not_writable_web_src_docconfig").'<br>';
+    $go = 0;
+  }
+}
+
 
 //检查扩展
 if(!extension_loaded("gd")){
   echo '请安装php-gd<br>';
   $go = 0;
 }
-
+/*
 if(!extension_loaded("mcrypt")){
   echo '请安装php-mcrypt<br>';
   $go = 0;
 }
-
+*/
 if(!extension_loaded("mbstring")){
   echo '请安装php-mbstring<br>';
   $go = 0;

@@ -59,16 +59,19 @@ ShowDoc is a tool greatly applicable for an IT team to share documents online. I
    
 
 ### Deploy It to Your Own Server
- - ShowDoc Deploy Manual
+ - ShowDoc Deploy
   
-     Please refer to:[https://www.showdoc.cc/help-en?page_id=16975](https://www.showdoc.cc/help-en?page_id=16975)
-  
+     Please refer to: [AutoInstall.md](https://github.com/star7th/showdoc/blob/master/documentation/en/AutoInstall.md)
+
+ - Development & Contribution
+
+   Please refer to: [Development&Contribution.md](https://github.com/star7th/showdoc/blob/master/documentation/en/Development&Contribution.md)
 
 ### Copyright 
 
  ShowDoc is issued complying with Apache2 Open Source License, and it is for free use. 
  
- Copyright © 2016 by star7th 
+ Copyright ©  star7th 
  
  
  E-mail: xing7th#gmail.com (change # into @) 

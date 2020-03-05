@@ -3,9 +3,48 @@ namespace Api\Controller;
 use Think\Controller;
 class BaseController extends Controller {
 
+	//是否开启本地调试
+	private $is_local_debug;
+
+    public function __construct()
+    {
+		//是否开启本地调试。
+		$this->is_local_debug = 0 ;
+
+		//做一个检测，以免这个配置更新到线上。
+		if (
+			$this->is_local_debug > 0 
+			&& strpos($_SERVER['HTTP_HOST'],'127.0.0.1') === false  
+			&& $_SERVER['HTTP_HOST'] != 'wu.com' 
+			&& strpos($_SERVER['HTTP_HOST'], "192.168") == false
+		){
+			$this->sendError("-1001","非本地环境禁止开通调试。请通知管理员关闭调试模式");
+			exit();
+		}
+
+		//检测数据库文件是否有可写权限
+		$this->checkDbWhitable();
+
+		//为了兼容纯json请求
+		if (strstr($_SERVER['CONTENT_TYPE'],"json")) {
+			$json = file_get_contents('php://input');
+			$array = json_decode($json,1);
+			$_POST = array_merge($_POST,$array) ;
+		}
+		
+    }
+
+
 	public function checkLogin($redirect = true){
+
+		//debug
+		if ($this->is_local_debug > 0 ) {
+			$login_user = D("User")->where("username = 'showdoc' ")->find();
+			session("login_user" , $login_user);
+		}
+		
 		if ( ! session("login_user")) {
-			$cookie_token = cookie('cookie_token');
+			$cookie_token = I("user_token") ? I("user_token") : cookie('cookie_token');
 			if ($cookie_token) {
 				$ret = D("UserToken")->getToken($cookie_token);
 				if ($ret && $ret['token_expire'] > time() ) {
@@ -24,6 +63,21 @@ class BaseController extends Controller {
 			return  session("login_user") ;
 		}
 	}
+	
+	//检查是否是管理员
+	public function checkAdmin($redirect = true){
+		$login_user = session("login_user") ;
+		if ($login_user) {
+			if ($login_user['groupid'] == 1 ) {
+				return true ;
+			}
+		}
+		if ($redirect) {
+			$this->sendError(10103);
+			exit();
+		}
+		return false;
+	}
 
 	/**
 	 * 返回json结果
@@ -37,7 +91,13 @@ class BaseController extends Controller {
 			$result['error_code'] = 0 ;
 			$result['data'] = $array ;
 		}
-		//header('Access-Control-Allow-Origin: *');//允许跨域请求
+		
+		if ($this->is_local_debug > 0 ) {
+			header('Access-Control-Allow-Origin: *');//允许跨域请求
+			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie');
+			header('Access-Control-Allow-Credentials: true');//允许跨域请求
+		}
+
 		echo json_encode($result);
 
 		//如果开启API调试模式，则记录请求参数和返回结果
@@ -58,6 +118,14 @@ class BaseController extends Controller {
 	//返回错误提示
 	protected function sendError($error_code , $error_message = ''){
 		$error_code = $error_code ? $error_code : 10103 ;
+		
+		//来自Html5Plus的应用允许跨域
+		if (strstr($_SERVER['HTTP_USER_AGENT'], "Html5Plus") ) {
+			header('Access-Control-Allow-Origin: *');//允许跨域请求
+			header('Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie');
+			header('Access-Control-Allow-Credentials : true');//允许跨域请求
+		}
+
 		if (!$error_message) {
 			$error_codes = C("error_codes");
 			foreach ($error_codes as $key => $value) {
@@ -71,7 +139,7 @@ class BaseController extends Controller {
 		$this->sendResult($array);
 	}
 
-	//判断某用户是否有项目管理权限（项目成员member_group_id为1，以及 项目创建者）
+	//判断某用户是否有项目管理权限（项目成员member_group_id为1，是项目所在团队的成员并且成员权限为1 ，以及 项目创建者）
 	protected function checkItemPermn($uid , $item_id){
 
 		if (!$uid) {
@@ -92,6 +160,13 @@ class BaseController extends Controller {
 			session("mamage_item_".$item_id , 1 );
 			return true;
 		}
+
+		$ItemMember = D("TeamItemMember")->where("item_id = '%d' and member_uid = '%d' and member_group_id = 1 ",array($item_id,$uid))->find();
+		if ($ItemMember) {
+			session("mamage_item_".$item_id , 1 );
+			return true;
+		}
+
 		return false;
 	}
 
@@ -128,6 +203,12 @@ class BaseController extends Controller {
 			session("visit_item_".$item_id , 1 );
 			return true;
 		}
+		
+		$TeamItemMember = D("TeamItemMember")->where("item_id = '%d' and member_uid = '%d'  ",array($item_id,$uid))->find();
+		if ($TeamItemMember) {
+			session("visit_item_".$item_id , 1 );
+			return true;
+		}
 
 		$item = D("Item")->where("item_id = '%d' ",array($item_id))->find();
 		if ($item['password']) {
@@ -137,6 +218,17 @@ class BaseController extends Controller {
 			return true;
 		}
 
+	}
+	//检查数据库文件是否可写
+	protected function checkDbWhitable(){
+		$file = C("DB_NAME") ;
+	    if ( $fp = @fopen($file, 'a+')) {
+	       @fclose($fp);
+	       return true ;
+	    } else {
+	    	$this->sendError("10103","Sqlite/showdoc.db.php文件不可写");
+	    	exit();
+	    }
 	}
 
 

@@ -18,11 +18,17 @@ class MemberController extends BaseController {
         $username = I("username");
         $member = D("User")->where(" username = '%s' ",array($username))->find();
 
-        if (!$member) {
+        if (!$username || !$member) {
             $this->sendError(10209);
             return ;
         }
+        
+        $if_exit = D("ItemMember")->where(" uid = '$member[uid]' and item_id = '$item_id' ")->find();
 
+        if ($if_exit) {
+            $this->sendError(10101,"该用户已经是项目成员");
+            return ;
+        }
         $data['username'] = $member['username'] ;
         $data['uid'] = $member['uid'] ;
         $data['item_id'] = $item_id ;
@@ -51,7 +57,7 @@ class MemberController extends BaseController {
             return ;
         } 
         if ($item_id > 0 ) {
-            $ret = D("ItemMember")->where(" item_id = '$item_id' ")->order(" addtime asc  ")->select();
+            $ret = D("ItemMember")->where(" item_id = '$item_id' ")->join(" left join user on user.uid = item_member.uid")->field("item_member.* , user.name as name")->order(" addtime asc  ")->select();
         }
         if ($ret) {
             foreach ($ret as $key => &$value) {
