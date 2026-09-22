@@ -1,77 +1,93 @@
-﻿## 中文版教程：https://www.showdoc.cc/help 
+﻿# ShowDoc
 
-### What is ShowDoc ?
+## [中文教程](https://www.showdoc.com.cn/help)
 
-Whenever we take over a module or project which has been developed by other people, we always feel crazy watching at those codes without notes. Where is the document?! Where is the document?! **Show me the doc !!**
+### What is ShowDoc?
 
-A programmer often hopes the others to write technical documents, with the hope of not writing them on his/her own. Because writing a technical document needs a lot of time to handle the format and layout, and the person who writes it has to think of all kinds of non-technical details such as which catalog to put in the newly-established word document
+When you take over a module or project that was developed by someone else, reading code without any notes or comments can be painful.
 
-All kinds of the word documents are kept by different persons in a team dispersedly. The person who needs other documents gets the documents by shouting out. He/She gives a shout asking for the documents and then receives them from other people by IMs or the e-mail. This kind of communication is not bad, but the efficiency is not high.
+Where is the documentation?! **Show me the doc!**
 
-ShowDoc is a tool greatly applicable for an IT team to share documents online. It can promote communication efficiency among members of the team.
+Programmers often expect others to write technical documentation, but rarely want to write it themselves. Writing good technical documentation takes a lot of time and effort, and involves a great deal of non-technical work, such as deciding on the format and layout, or figuring out which catalog a new Word document should be filed under.
+
+In most teams, Word documents are maintained separately by different people.
+
+How do you get the latest version of a document? Here is a common approach:
+
+You ask around for it. If you're lucky, someone will send you a copy over IM or email. This works, but it is far from the most efficient way.
+
+So, what is the most efficient way? **ShowDoc!**
+
+ShowDoc is a tool designed for IT teams to share documents online. It improves communication efficiency among team members.
 
 ### What can it be used for?
 
-- #### API Document （ [Demo](https://www.showdoc.cc/demo-en)）
- 
- With the development of mobile Internet, BaaS (Backend as a Service) becomes more and more popular. The Server end provides API, and the APP end or Webpage frontend can invoke data conveniently. Using ShowDoc can compile exquisite API documents in a very fast and convenient way.
+- #### API Document ([Demo](https://www.showdoc.com.cn/demo-en))
 
-- #### Data Dictionary （ [Demo](https://www.showdoc.cc/demo-en)）
- 
- A good Data Dictionary can easily exhibit database structure to other people, such as definition of each field and the like.
+  With the growth of mobile Internet, BaaS (Backend as a Service) has become increasingly popular. The server-side (backend) provides APIs, and apps or web frontends can conveniently consume data through them. With ShowDoc, you can create elegant API documents quickly and easily.
 
-- #### Explanation Document （ [Demo](https://www.showdoc.cc/help-en)）
- 
- You can absolutely use ShowDoc to compile the explanation documents for some tools, as well as to compile some technical specifications explanation documents for the team to look up.
- 
-### What functions does it have?
+- #### Data Dictionary ([Demo](https://www.showdoc.com.cn/demo-en))
+
+  A well-structured data dictionary can clearly present your database schema and define the meaning of every field.
+
+- #### Explanation Document ([Demo](https://www.showdoc.com.cn/help-en))
+
+  You can use ShowDoc to write tool instructions or technical specification documents for your team to reference.
+
+### What features does it have?
 
 - #### Sharing and Exporting
 
- Responsive webpage design can share the project documents to computer or mobile devices for reading. It can also export the project into word document for browsing offline.
- 
+  Responsive web design lets your team read project documents on computers and mobile devices. You can also export a project as an offline Word document.
+
 - #### Permission Management
 
- - Public Project and Private Project
- 
-   Projects on ShowDoc are divided into two categories including Public Project and Private Project. Public Project can be visited by any user no matter he/she logs in or not, while inputting password for verification is needed for visiting the Private Project. The password is set by project creator. 
-   
+  - Public and Private Projects
+
+    Projects on ShowDoc fall into two categories: public and private. Public projects can be viewed by anyone; private projects require login. The password is set by the project owner.
+
   - Project Transfer
-  
-   The project creator can transfer the project to other users of the website freely.
-   
+
+    The project owner can freely transfer a project to someone else.
+
   - Project Members
-  
-   You can easily add or delete project members in the project of ShowDoc. Members of the project can edit the project, but they can not transfer or delete the project (only creator of the project has the permission).
-   
-- #### Edit Function
-  - Markdown Edit
-  
-   ShowDoc adopts Markdown Editor, and it is excellent both in editing and reading experience. If you know nothing about Markdown, please search “Learning and Introduction of Markdown” on the search engine.
-   
-  - Template Insert
-  
-   On the editing page of ShowDoc, a click on the button which is on the top of the Editor can easily insert API interface template and data dictionary template. After inserting the template, altering data is the only thing that need to do and it reduces a lot of work in editing.
-   
-  - History Version
-  
-   ShowDoc provides a function of History Version on the page, and you can easily restore the page to the former version.
-   
 
-### Deploy It to Your Own Server
- - ShowDoc Deploy Manual
-  
-     Please refer to:[https://www.showdoc.cc/help-en?page_id=16975](https://www.showdoc.cc/help-en?page_id=16975)
-  
+    You can easily add or remove project members. Members can edit documents, but only the owner can transfer or delete a project.
 
-### Copyright 
+- #### Editing Features
 
- ShowDoc is issued complying with Apache2 Open Source License, and it is for free use. 
- 
- Copyright © 2016 by star7th 
- 
- 
- E-mail: xing7th#gmail.com (change # into @) 
- 
- All rights reserved. 
- 
+  - Markdown Support
+
+    ShowDoc uses a Markdown editor that is excellent for both writing and reading. If you are new to Markdown, search for "Markdown tutorial" to get started.
+
+  - Template Insertion
+
+    On the editing page, a single click on the button at the top of the editor inserts an API interface template or a data dictionary template. After inserting a template, you only need to fill in the data, which saves a lot of editing work.
+
+  - Version History
+
+    ShowDoc keeps a version history for every page, so you can easily restore a previous version.
+
+### Deploy it on your own server
+
+- ShowDoc Deployment
+
+  Please refer to: [AutoInstall.md](https://github.com/star7th/showdoc/blob/master/documentation/en/AutoInstall.md)
+
+- Security Hardening (self-hosted Nginx/Apache users **must read**: deny access to the `Sqlite/` directory to prevent RCE)
+
+  Please refer to: [Security.md（中文）](https://github.com/star7th/showdoc/blob/master/documentation/zh-CN/Security.md)
+
+- Development & Contribution
+
+  Please refer to: [Development&Contribution.md](https://github.com/star7th/showdoc/blob/master/documentation/en/Development&Contribution.md)
+
+### Copyright
+
+ShowDoc is released under the Apache 2.0 Open Source License and is free to use.
+
+In addition to the Apache 2.0 license, ShowDoc carries an extra copyright notice:
+
+- [ShowDoc official](https://www.showdoc.com.cn/ 'ShowDoc official') and the author [star7th](https://github.com/star7th 'star7th') hold the copyright and corresponding rights to the program.
+- Provided that the copyright information and links on the program UI are retained, the program may be used for free or further development.
+- If you need to change the copyright information or links, you must obtain the official consent and authorization.
